@@ -20,6 +20,7 @@ async def home(request: Request, session: Session = Depends(get_db)):
             "request": request,
             "app_name": config.app_name.get_secret_value(),
             "todo_list": todos,
+            "is_title": True,
         },
     )
 
@@ -28,11 +29,12 @@ async def home(request: Request, session: Session = Depends(get_db)):
 async def nullable_title(request: Request, session: Session = Depends(get_db)):
     todos = session.query(Todo).all()
     return templates.TemplateResponse(
-        "todo/blank_title.html",
+        "todo/index.html",
         {
             "request": request,
             "app_name": config.app_name.get_secret_value(),
             "todo_list": todos,
+            "is_title": False,
         },
     )
 
