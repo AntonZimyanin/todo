@@ -7,12 +7,12 @@
     <h1 class="ui center aligned header green">{{ app_name }}</h1>
 
     <form class="ui form" action="{{ url_for('add') }}" method="post">
-        <h3 class="test_css">Оптимизируй своё время c Python</h3>
+        <h3 class="test_css">Optimize your time with Python</h3>
         <div class="field">
-            <label> {{ "Новая задача" if is_title else "Заметка не может быть пустой!" }}</label>
-            <input type="text" name="title" placeholder="Введите название задачи"><br>
+            <label> {{ "New task" if is_title else "Note cannot be empty!" }}</label>
+            <input type="text" name="title" placeholder="Enter the name of the task"><br>
         </div>
-        <button class="ui teal basic button" type="submit">Добавить</button>
+        <button class="ui teal basic button" type="submit">Add</button>
     </form>
 
 
@@ -21,13 +21,13 @@
         <p class="ui big header">№{{ todo.id }} {{ todo.title }}</p>
 
         {% if todo.is_complete == False %}
-        <span class="ui gray label">Не завершено</span>
-        <a class="ui primary basic button" href="{{ url_for('update', todo_id=todo.id) }}">Закрыть</a>
+        <span class="ui gray label">Not completed</span>
+        <a class="ui primary basic button" href="{{ url_for('update', todo_id=todo.id) }}">Close</a>
         {% else %}
         <a href=""></a>
-        <span class="ui green label">Завершено</span>
-        <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id) }}">Открыть</a>
-        <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id) }}">Удалить</a>
+        <span class="ui green label">Completed</span>
+        <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id) }}">Open</a>
+        <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id) }}">Delete</a>
         {% endif %}
     </div>
     {% endfor %}
