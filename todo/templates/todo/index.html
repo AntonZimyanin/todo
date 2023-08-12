@@ -1,0 +1,34 @@
+{% extends 'todo/layout.html' %}
+
+{% block content %}
+
+<div style="margin-top: 50px;" class="ui container">
+
+    <h1 class="ui center aligned header green">{{ app_name }}</h1>
+
+    <form class="ui form" action="{{ url_for('add') }}" method="post">
+        <h3 class="test_css">Optimize your time with Python</h3>
+        <div class="field">
+            <label> {{ "New task" if is_title else "Note cannot be empty!" }}</label>
+            <input type="text" name="title" placeholder="Enter the name of the task"><br>
+        </div>
+        <button class="ui teal basic button" type="submit">Add</button>
+    </form>
+
+
+    {% for todo in todo_list %}
+    <div class="ui segment">
+        <p class="ui big header">№{{ todo.id }} {{ todo.title }}</p>
+
+        {% if todo.is_complete == False %}
+        <span class="ui gray label">Not completed</span>
+        <a class="ui primary basic button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete) }}">Close</a>
+        {% else %}
+        <span class="ui green label">Completed</span>
+        <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete) }}">Open</a>
+        <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id) }}">Delete</a>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
