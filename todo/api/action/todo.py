@@ -6,15 +6,13 @@ from todo.api.schemas import CreateTodo, ShowTodo, EmptyList
 from todo.database.dals import TodoDAL
 from todo.database.models import Todo
 
-# def _create_todo(body: CreateTodo, session: Session): 
-def _create_todo(title: str, session: Session) -> ShowTodo: 
+# def _create_todo(body: CreateTodo, session: Session):
+def _create_todo(title: str, session: Session) -> ShowTodo:
     with session.begin():
         todo_dal = TodoDAL(session)
         todo = todo_dal.create_todo(title=title)
 
-        return ShowTodo(id=todo.id, 
-                        title=todo.title, 
-                        is_complete=todo.is_complete)
+        return ShowTodo(id=todo.id, title=todo.title, is_complete=todo.is_complete)
 
 
 def _delete_todo(todo_id, session: Session) -> Union[int, None]:
@@ -33,7 +31,7 @@ def _update_todo(todo_id, session: Session, params: dict) -> Union[int, None]:
         return update_todo_id
 
 
-def _get_todo_by_id(todo_id: int, session: Session) -> Union[Todo, None]: 
+def _get_todo_by_id(todo_id: int, session: Session) -> Union[Todo, None]:
     with session.begin():
         todo_dal = TodoDAL(session)
         todo = todo_dal.get_todo_by_id(todo_id=todo_id)

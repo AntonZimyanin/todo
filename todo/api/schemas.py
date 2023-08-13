@@ -19,5 +19,5 @@ class ShowTodo(TunedModel):
     is_complete: bool
 
 
-class EmptyList: 
+class EmptyList:
     pass
