@@ -1,9 +1,7 @@
 from typing import Annotated
-from logging import getLogger
 
 from fastapi import Request, Depends, Form, APIRouter, Path
 from fastapi.responses import RedirectResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.exceptions import HTTPException
 from starlette.status import HTTP_303_SEE_OTHER, HTTP_302_FOUND

@@ -4,7 +4,7 @@ from pydantic import BaseSettings, SecretStr
 
 
 class Settings(BaseSettings):
-    app_name: SecretStr
+    app_name: str
     db_url: SecretStr
 
     class Config:
