@@ -1,8 +1,5 @@
 from typing import Union
 
-from sqlalchemy import select, delete, update
-from sqlalchemy.orm.session import Session
-
 from todo.database.models import Todo
 from todo.api.schemas import EmptyList
 
@@ -10,48 +7,54 @@ from todo.api.schemas import EmptyList
 class TodoDAL:
     """Data Access Layer for operating user info"""
 
-    def __init__(self, db_session: Session) -> None:
-        self.db_session = db_session
+    def __init__(
+        self,
+    ) -> None:
+        pass
 
-    def create_todo(
+    async def create_todo(
         self,
         title,
     ) -> Todo:
-        new_todo = Todo(title=title)
-        self.db_session.add(new_todo)
-        self.db_session.flush()
-
+        new_todo = await Todo.create(title=title)
         return new_todo
 
-    def delete_todo(self, todo_id: int) -> Union[int, None]:
-        query = delete(Todo).where(Todo.id == todo_id).returning(Todo.id)
-        res = self.db_session.execute(query)
-        deleted_todo_id_row = res.fetchone()
-        if deleted_todo_id_row is not None:
-            return deleted_todo_id_row[0]
+    async def delete_todo(self, todo_id: int) -> Union[int, None]:
+        deleted_todo = await Todo.filter(id=todo_id).delete()
+        if deleted_todo:
+            return todo_id
 
-    def get_todo_by_id(self, todo_id: int) -> Union[Todo, None]:
-        query = select(Todo).where(Todo.id == todo_id)
-        res = self.db_session.execute(query)
-        user_row = res.fetchone()
-        if user_row is not None:
-            return user_row[0]
+    async def get_todo_by_id(self, todo_id: int) -> Union[Todo, None]:
+        todo = await Todo.get_or_none(id=todo_id)
+        return todo
 
-    def update_todo(self, todo_id: int, **kwargs) -> Union[int, None]:
-        query = update(Todo).where(Todo.id == todo_id).values(kwargs).returning(Todo.id)
-        res = self.db_session.execute(query)
-        update_todo_row = res.fetchone()
-        if update_todo_row is not None:
-            return update_todo_row[0]
+    async def update_todo(self, todo_id: int, **kwargs) -> Union[Todo, None]:
+        """
+        Update a Todo item with the specified ID using the provided keyword arguments.
 
-    def select_all(self) -> Union[list, EmptyList]:
-        query = select(Todo)
-        res = self.db_session.execute(query)
-        todo_tuple_list = res.fetchall()
+        This function updates the attributes of a Todo item in the database with the given ID.
+        The attributes to update are provided as keyword arguments.
 
-        if todo_tuple_list == []:
+        Parameters:
+        - todo_id (int): The unique identifier of the Todo item to be updated.
+        - **kwargs: Keyword arguments representing the attributes to update in the Todo item.
+                    The keyword should match the attribute name in the Todo class.
+
+        Returns:
+        - Union[Todo, None]: If the update is successful, returns the updated Todo item.
+                            If no matching Todo item is found, returns None.
+        """
+        update_todo = await Todo.get_or_none(id=todo_id)
+        if update_todo is not None:
+            update_todo.update_from_dict(kwargs)
+            await update_todo.save()
+
+            return update_todo
+
+    async def select_all(self) -> Union[list, EmptyList]:
+        todos = await Todo.all()
+
+        if todos == []:
             return []
 
-        todo_list = [todo for todo_tuple in todo_tuple_list for todo in todo_tuple]
-
-        return todo_list
+        return todos

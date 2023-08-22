@@ -1,15 +1,8 @@
-from sqlalchemy import Column, String, Integer, Boolean
-
-from todo.database.base import Base
-from todo.database.base import engine
+from tortoise.models import Model
+from tortoise import fields
 
 
-class Todo(Base):
-    __tablename__ = "todos"
-
-    id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    is_complete = Column(Boolean, default=False)
-
-
-Base.metadata.create_all(engine)
+class Todo(Model):
+    id = fields.IntField(pk=True)
+    title = fields.TextField()
+    is_complete = fields.BooleanField(default=False)

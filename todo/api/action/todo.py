@@ -1,49 +1,40 @@
 from typing import Union
 
-from sqlalchemy.orm.session import Session
-
-from todo.api.schemas import CreateTodo, ShowTodo, EmptyList
-from todo.database.dals import TodoDAL
+from todo.api.schemas import EmptyList
 from todo.database.models import Todo
-
-# def _create_todo(body: CreateTodo, session: Session):
-def _create_todo(title: str, session: Session) -> ShowTodo:
-    with session.begin():
-        todo_dal = TodoDAL(session)
-        todo = todo_dal.create_todo(title=title)
-
-        return ShowTodo(id=todo.id, title=todo.title, is_complete=todo.is_complete)
+from todo.database.dals import TodoDAL
 
 
-def _delete_todo(todo_id, session: Session) -> Union[int, None]:
-    with session.begin():
-        todo_dal = TodoDAL(session)
-        deleted_todo_id = todo_dal.delete_todo(todo_id=todo_id)
+async def _create_todo(title: str) -> Todo:
+    todo_dal = TodoDAL()
+    new_todo = await todo_dal.create_todo(title=title)
 
-        return deleted_todo_id
-
-
-def _update_todo(todo_id, session: Session, params: dict) -> Union[int, None]:
-    with session.begin():
-        todo_dal = TodoDAL(session)
-        update_todo_id = todo_dal.update_todo(todo_id=todo_id, **params)
-
-        return update_todo_id
+    return new_todo
 
 
-def _get_todo_by_id(todo_id: int, session: Session) -> Union[Todo, None]:
-    with session.begin():
-        todo_dal = TodoDAL(session)
-        todo = todo_dal.get_todo_by_id(todo_id=todo_id)
+async def _delete_todo(todo_id: int) -> Union[int, None]:
+    todo_dal = TodoDAL()
+    delete_todo_id = await todo_dal.delete_todo(todo_id=todo_id)
 
-        if todo is not None:
-            return todo
+    return delete_todo_id
 
 
-def _select_all_todo(session: Session) -> Union[list, EmptyList]:
-    with session.begin():
-        todo_dal = TodoDAL(session)
-        todos = todo_dal.select_all()
+async def _update_todo(todo_id: int, params: dict) -> Union[int, None]:
+    todo_dal = TodoDAL()
+    update_todo = await todo_dal.update_todo(todo_id=todo_id, **params)
 
-        if todos is not None:
-            return todos
+    return update_todo
+
+
+async def _get_todo_by_id(todo_id: int) -> Union[Todo, None]:
+    todo_dal = TodoDAL()
+    todo = await todo_dal.get_todo_by_id(todo_id=todo_id)
+
+    return todo
+
+
+async def _select_all_todo() -> Union[list, EmptyList]:
+    todo_dal = TodoDAL()
+    todos = await todo_dal.select_all()
+
+    return todos
