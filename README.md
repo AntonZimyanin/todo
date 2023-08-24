@@ -1,6 +1,6 @@
 # Todo Web Application
 
-This is a simple Todo web application created using FastAPI, SQLAlchemy, HTML, and CSS. It allows users to create, view, update, and delete tasks in a user-friendly interface.
+This is a simple Todo web application created using FastAPI, Tortoise-ORM, HTML, and CSS. It allows users to create, view, update, and delete tasks in a user-friendly interface.
 
 ## Features
 
@@ -14,7 +14,7 @@ This is a simple Todo web application created using FastAPI, SQLAlchemy, HTML, a
 - Python 3.7 or higher
 - Poetry dependency manager
 - FastAPI
-- SQLAlchemy
+- Tortoise-ORM
 - HTML
 - CSS
 
@@ -65,6 +65,6 @@ This project is licensed under the [MIT License](LICENSE). Feel free to use and 
 ## Acknowledgements
 
 - [FastAPI](https://fastapi.tiangolo.com/) - FastAPI framework for building APIs with Python 3.7+
-- [SQLAlchemy](https://www.sqlalchemy.org/) - SQL toolkit and Object-Relational Mapping (ORM) for Python
+- [Tortoise-ORM](https://tortoise.github.io/) - SQL toolkit and Object-Relational Mapping (ORM) for Python
 - [HTML](https://www.w3.org/html/) - Hypertext Markup Language for creating web pages
 - [CSS](https://www.w3.org/Style/CSS/Overview.en.html) - Cascading Style Sheets for styling web pages
