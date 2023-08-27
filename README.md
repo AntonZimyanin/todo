@@ -37,7 +37,11 @@ This is a simple Todo web application created using FastAPI, SQLAlchemy, HTML, a
    ```
    poetry install
    ```
-4. Rename .env.example to .env and add db path
+4. Launching the virtual environment:
+   ```
+   poetry shell
+   ```
+5. Rename .env.example to .env and add db path
 
 
 ## Usage
