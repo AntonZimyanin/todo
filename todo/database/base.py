@@ -20,7 +20,7 @@ def create_db_path():
 # create_db_path()
 
 engine = create_engine(
-    config.db_url.get_secret_value(),
+    config.db_url,
     connect_args={"check_same_thread": False},
     echo=True,
 )
