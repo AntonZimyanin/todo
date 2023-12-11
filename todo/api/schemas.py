@@ -21,3 +21,11 @@ class ShowTodo(TunedModel):
 
 class EmptyList:
     pass
+
+
+
+class CreateUser(BaseModel):
+    pass
+
+class ShowUser(TunedModel):
+    pass

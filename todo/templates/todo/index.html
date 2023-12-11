@@ -2,6 +2,35 @@
 
 {% block content %}
 
+{% set user_id = user.id %}
+
+<script>
+
+
+var userId = user_id
+
+document.querySelector('.ui.form').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    let title = event.target.elements.title.value;
+    // let user = userId;
+
+    let data = { title: title, user_id: userId };
+
+
+    fetch(`{{ url_for('add') }}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => console.log('Success:', data))
+    .catch((error) => console.error('Error:', error));
+});
+</script>
+
 <div style="margin-top: 50px;" class="ui container">
 
     <h1 class="ui center aligned header green">{{ app_name }}</h1>
@@ -12,9 +41,10 @@
             <label> {{ "New task" if is_title else "Note cannot be empty!" }}</label>
             <input type="text" name="title" placeholder="Enter the name of the task"><br>
         </div>
+        <input type="hidden" name="user_id" value="{{ user.id }}">
         <button class="ui teal basic button" type="submit">Add</button>
     </form>
-
+    
 
     {% for todo in todo_list %}
     <div class="ui segment">
@@ -22,13 +52,20 @@
 
         {% if todo.is_complete == False %}
         <span class="ui gray label">Not completed</span>
-        <a class="ui primary basic button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete) }}">Close</a>
+        <a class="ui primary basic button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete, user_id=user.id) }}">Close</a>
         {% else %}
         <span class="ui green label">Completed</span>
-        <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete) }}">Open</a>
+        <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete, user_id=user.id) }}">Open</a>
         <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id) }}">Delete</a>
         {% endif %}
     </div>
     {% endfor %}
+
+
+    <form class="ui form" action="{{ url_for('log_out') }}" method="post">
+        
+        <button class="ui teal basic button" type="submit">Log out</button>
+    </form>
 </div>
 {% endblock content %}
+

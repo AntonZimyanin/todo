@@ -7,10 +7,10 @@ from todo.database.dals import TodoDAL
 from todo.database.models import Todo
 
 # def _create_todo(body: CreateTodo, session: Session):
-def _create_todo(title: str, session: Session) -> ShowTodo:
+def _create_todo(title: str, user_id: int, session: Session) -> ShowTodo:
     with session.begin():
         todo_dal = TodoDAL(session)
-        todo = todo_dal.create_todo(title=title)
+        todo = todo_dal.create_todo(title=title, user_id=user_id)
 
         return ShowTodo(id=todo.id, title=todo.title, is_complete=todo.is_complete)
 
@@ -40,10 +40,10 @@ def _get_todo_by_id(todo_id: int, session: Session) -> Union[Todo, None]:
             return todo
 
 
-def _select_all_todo(session: Session) -> Union[list, EmptyList]:
+def _select_all_todo(user_id: int, session: Session) -> Union[list, EmptyList]:
     with session.begin():
         todo_dal = TodoDAL(session)
-        todos = todo_dal.select_all()
+        todos = todo_dal.select_all(user_id=user_id)
 
         if todos is not None:
             return todos
