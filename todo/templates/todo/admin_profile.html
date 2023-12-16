@@ -25,11 +25,8 @@
         <p>Tasks completed: {{ difference }}</p>
 
 
-        {% if user.name == "dimochka"%}
-        <a class="ui blue button" href="{{ url_for('profile_admin_request', user_id=user.id) }}">
-            Get all information
-        </a>
-        {% endif %}
+        <p>total registered users: {{ user_list|length }}</p>
+
     </div>
 </body>
 </html>

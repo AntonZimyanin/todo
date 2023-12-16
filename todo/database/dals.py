@@ -77,12 +77,16 @@ class UserDal:
         return new_user
 
 
-    def select_user(self): 
+    def select_all(self): 
         query = select(User)
-        user_row = self.db_session.execute(query).fetchone()
+        user_tuple_list = self.db_session.execute(query).fetchall()
         
-        if user_row is not None:
-            return user_row[0]
+        if user_tuple_list is None: 
+            return  
+        
+        user_list = [user for user_tuple in user_tuple_list for user in user_tuple]
+
+        return user_list
         
     
     def delete_user(self, user_id: int) -> Union[int, None]:

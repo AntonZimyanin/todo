@@ -42,10 +42,16 @@ def _update_user(user_id, session: Session, params: dict) -> Union[int, None]:
         return update_user_id
     
 
-def _select_user(session: Session) -> Union[User, None]: 
-    with session.begin():
-        user_dal = UserDal(session)
-        user = user_dal.select_user()
+def _select_all_user(session: Session) -> Union[User, None]: 
+    # with session.begin():
+    #     user_dal = UserDal(session)
+    #     user = user_dal.select_all()
 
-        if user is not None: 
-            return user
+    #     if user is not None: 
+    #         return user
+
+    user_dal = UserDal(session)
+    user = user_dal.select_all()
+    
+    if user is not None: 
+        return user

@@ -47,3 +47,9 @@ def _select_all_todo(user_id: int, session: Session) -> Union[list, EmptyList]:
 
         if todos is not None:
             return todos
+        
+    # todo_dal = TodoDAL(session)
+    # todos = todo_dal.select_all(user_id=user_id)
+
+    # if todos is not None:
+    #     return todos
