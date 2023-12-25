@@ -60,7 +60,7 @@ document.querySelector('.ui.form').addEventListener('submit', function(event) {
         {% else %}
         <span class="ui green label">Completed</span>
         <a class="ui blue button" href="{{ url_for('update', todo_id=todo.id, is_complete=not todo.is_complete, user_id=user.id) }}">Open</a>
-        <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id) }}">Delete</a>
+        <a class="ui negative basic button" href="{{ url_for('delete', todo_id=todo.id, user_id=user.id) }}">Delete</a>
         {% endif %}
     </div>
     {% endfor %}

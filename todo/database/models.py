@@ -26,7 +26,7 @@ class User(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(60))
 
-    # todos: Mapped[List["Todo"]] = relationship(back_populates="user", backref=backref("todos", cascade="all,delete"))
+    # todos: Mapped[List["Todo"]] = relationship(back_populates="user", backref=backref("user", cascade="all,delete"))
     todos: Mapped[List["Todo"]] = relationship(back_populates="user")
 
 
